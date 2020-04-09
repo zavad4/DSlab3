@@ -326,7 +326,7 @@ const findlen2 = matrix => {
           if (matrix[j][k] === 1) {
             ways2.push(`${i + 1}-${j + 1}-${k + 1}`);
             ctx.fillText(`${i + 1}-${j + 1}-${k + 1}`, 150, 950 + counter * 25);
-            console.log(`${i + 1}-${j + 1}-${k + 1}`);
+            //console.log(`${i + 1}-${j + 1}-${k + 1}`);
             counter++;
           }
         }
@@ -374,15 +374,15 @@ const MultMatrix = (A,B) => {
   return C;
 };
 
-function MultElemets(m1,m2) {
-  let C = Array.from(m2);
+function MultElements(m1, m2) {
+  const C = Array.from(m1);
   for (let i = 0; i < m1.length; i++) {
-   for (let j =0 ; j < m2.length; j++) {
-    C[i][j] = m1[i][j] * m2[j][i];
-     }
-   }
-   return C;
-};
+    for (let j = 0; j < m2.length; j++) {
+      C[i][j] = m1[i][j] * m2[i][j];
+    }
+  }
+  return C;
+}
 
 const MatrixPow = (n,A) => { 
   if (n == 1) return A; 
@@ -431,8 +431,8 @@ for (let i = 0; i < D.length; i++) {
 }
 
 console.log(D);
-
-const S = MultElemets(D, TransMatrix(D));
+const S = MultElements(JSON.parse(JSON.stringify(D)), TransMatrix(JSON.parse(JSON.stringify(D))));
+console.log(S);
 ctx.fillText('Matrix of strong connectivity', 750, 950);
 for (let i = 0; i < S.length; i++) {
   ctx.font = '22px Times new Roman';
@@ -454,7 +454,6 @@ for(let i = 0; i < S.length; i++) {
   if(temp.length) K.push(Array.from(temp));
   temp = [];
 }
-
 let conRegen = {};
 
 K.forEach((val, ind) => {
@@ -483,7 +482,7 @@ for(let i = 0; i < C.length; i++) {
     if(C[i][j] === 1) {
       const a = conRegen[i + 1];
       const b = conRegen[j + 1];
-      newM[a - 1][b - 1] = 1;
+      if(a !== b) newM[a - 1][b - 1] = 1;
     } 
   }
 }
@@ -512,7 +511,6 @@ for(let i = 0; i < C.length; i++) {
   }
   newVerts = vertics;
 }
-
 
 const drawNewVertex = obj => {
   for (let key in obj) {
